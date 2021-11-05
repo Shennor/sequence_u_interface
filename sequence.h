@@ -34,11 +34,11 @@ public:
 	virtual Sequence<T>* Copy(size_t begin, size_t end) = 0;
 };
 
-// >
+// > first equal or bigger 
 template <class T>
 size_t binary_search(Sequence<T>& seq, T& element, size_t lhb, size_t rhb, int (*cmp)(T&, T&))
 {
-	if (rhb - lhb <= 1) return lhb;
+	if (rhb - lhb <= 1) return rhb;
 	size_t m = lhb + (rhb - lhb) / 2;
 	if (cmp(seq.Get(m), element) < 0) return binary_search(seq, element, m, rhb, cmp);
 	return binary_search(seq, element, lhb, m, cmp);
