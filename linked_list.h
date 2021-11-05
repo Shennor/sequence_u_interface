@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include "i_enumerator.h"
 #include "i_collection.h"
+//#include "i_sorter.h"
 
 template <class T> struct Node
 {
@@ -25,7 +26,8 @@ public:
 };
 
 
-template <class T> class LinkedList : public IEnumerable<T>, public ICollection<T>
+template <class T> class LinkedList : public IEnumerable<T>,
+			public ICollection<T>//, ISorter<LinkedList<T>, T>
 {
 private:
 	Node<T>* head_ = nullptr;
@@ -51,12 +53,20 @@ public:
 	void Append(T item);
 	void Prepend(T item);
 	void InsertAt(T item, size_t index);
+	void DeleteAt(size_t index);
+	void Swap(size_t first_index, size_t second_index);
 	
 	LinkedList<T> Concat(LinkedList<T>& list);
 
 	// Iterator
 
 	IEnumerator<T>* GetEnumerator() override;
+
+	// Sort
+
+	//LinkedList<T>* merge_sort(LinkedList<T>* seq, int (*cmp)(T, T)) override;
+	//LinkedList<T>* merge_sort(LinkedList<T>* seq, int (*cmp)(T, T), 
+		//size_t begin, size_t end);
 
 	// Destructor
 
@@ -137,6 +147,7 @@ LinkedList<T>::LinkedList()
 template <class T>
 LinkedList<T>::LinkedList(const LinkedList<T>&  list)
 {
+	
 	head_ = new Node<T>;
 	Node<T>* cur_this = head_;
 	Node<T>* cur_other = list.head_;
@@ -241,7 +252,14 @@ LinkedList<T>::GetSubList(size_t start_index, size_t end_index) const
 		h = h->next_;
 	}
 	sub_list.head_ = new Node<T>;
-	sub_list.length_ = end_index - start_index + 1;
+	if(end_index == start_index)
+	{
+		sub_list.length_ = 0;
+	}
+	else
+	{
+		sub_list.length_ = end_index - start_index + 1;
+	}
 	copy_nodes(h, sub_list.head_, 
 		end_index - start_index + 1);
 	return sub_list;
@@ -284,6 +302,40 @@ void LinkedList<T>::InsertAt(T item, size_t index)
 	}
 	
 	length_++;
+}
+
+template <class T>
+void LinkedList<T>::DeleteAt(size_t index)
+{
+	if (index > length_)
+	{
+		throw std::out_of_range(
+			"LinkedList DeleteAt: index out of range");
+	}
+	
+	if(index == 0)
+	{
+		head_ = head_->next_;
+		return;
+	}
+	
+	Node<T>* cur = head_;
+	Node<T>* next = head_->next_;
+	for(size_t i = 1; i < index; ++i)
+	{
+		cur = next;
+		next = next->next_;
+	}
+	cur->next_ = next->next_;
+	length_--;
+}
+
+template <class T>
+void LinkedList<T>::Swap(size_t first_index, size_t second_index)
+{
+	T tmp = this->Get(first_index);
+	this->Set(first_index, this->Get(second_index));
+	this->Set(second_index, tmp);
 }
 
 template <class T>
@@ -335,7 +387,15 @@ IEnumerator<T>* LinkedList<T>::GetEnumerator()
 	IEnumerator<T>* res = new LinkedListEnumerator(head_, end);
 	return res;
 }
-
+/*
+template <class T>
+LinkedList<T>* LinkedList<T>::merge_sort(LinkedList<T>* seq, int(* cmp)(T, T), 
+	size_t begin, size_t end)
+{
+	if (end - begin < 1)
+		return
+}
+*/
 template <class T>
 LinkedList<T>::~LinkedList()
 {

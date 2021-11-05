@@ -110,6 +110,42 @@ void test_resize()
 	assert(v.Get(3) == 0);
 }
 
+void test_delete_at()
+{
+	DynamicArray<int> v(3);
+	v.Set(0, 1);
+	v.Set(1, 2);
+	v.Set(2, 3);
+	v.Set(3, 4);
+	v.Set(4, 5);
+	bool ex = false;
+	try
+	{
+		v.DeleteAt(6);
+	}
+	catch (std::exception e)
+	{
+		ex = true;
+		assert(strcmp(e.what(), "DynamicArray DeleteAt: index out of range") == 0);
+	}
+	assert(ex);
+	v.DeleteAt(2);
+	assert(v.GetCount() == 4);
+	assert(v.Get(0) == 1);
+	assert(v.Get(1) == 2);
+	assert(v.Get(2) == 4);
+	assert(v.Get(3) == 5);
+	v.DeleteAt(0);
+	assert(v.GetCount() == 3);
+	assert(v.Get(0) == 2);
+	assert(v.Get(1) == 4);
+	assert(v.Get(2) == 5);
+	v.DeleteAt(2);
+	assert(v.GetCount() == 2);
+	assert(v.Get(0) == 2);
+	assert(v.Get(1) == 4);
+}
+	
 void test_enumerator()
 {
 	char a[7] = "Mother";

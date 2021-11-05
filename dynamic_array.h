@@ -34,12 +34,15 @@ public:
 	DynamicArray(T* items, size_t count);
 	DynamicArray(size_t size);
 	DynamicArray(const DynamicArray<T>& dynamic_array);
+	DynamicArray(const DynamicArray<T>* dynamic_array);
 
 	// Decomposition
 
 	T Get(size_t index) const;
 	size_t GetCount() const;
+	void DeleteAt(size_t index);
 	void Set(size_t index, T value);
+	void Swap(size_t first_index, size_t second_index);
 	
 	// Operators
 
@@ -120,6 +123,8 @@ DynamicArray<T>::DynamicArray(size_t size)
 template <class T>
 DynamicArray<T>::DynamicArray(const DynamicArray<T>& dynamic_array)
 {
+	*this = dynamic_array;
+	/*
 	capacity_ = dynamic_array.capacity_;
 	size_ = dynamic_array.size_;
 	p_data_ = new T[capacity_]();
@@ -127,11 +132,19 @@ DynamicArray<T>::DynamicArray(const DynamicArray<T>& dynamic_array)
 	{
 		p_data_[i] = dynamic_array.p_data_[i];
 	}
+	*/
+}
+
+template <class T>
+DynamicArray<T>::DynamicArray(const DynamicArray<T>* dynamic_array)
+{
+	*this = DynamicArray<T>(dynamic_array->p_data_, dynamic_array->size_);
 }
 
 template <class T>
 DynamicArray<T>& DynamicArray<T>::operator=(const DynamicArray<T>& other)
 {
+	if (this == &other) return *this;
 	size_ = other.size_;
 	capacity_ = size_;
 	p_data_ = new T[size_];
@@ -159,6 +172,20 @@ size_t DynamicArray<T>::GetCount() const
 }
 
 template <class T>
+void DynamicArray<T>::DeleteAt(size_t index)
+{
+	if(index >= size_)
+	{
+		throw std::out_of_range("DynamicArray DeleteAt: index out of range");
+	}
+	for(size_t i = index; i < size_ - 1; ++i)
+	{
+		p_data_[i] = p_data_[i + 1];
+	}
+	this->Resize(size_ - 1);
+}
+
+template <class T>
 void DynamicArray<T>::Set(size_t index, T value)
 {
 	if (index >= size_)
@@ -166,6 +193,14 @@ void DynamicArray<T>::Set(size_t index, T value)
 		throw std::out_of_range("DynamicArray Set: index out of range");
 	}
 	p_data_[index] = value;
+}
+
+template <class T>
+void DynamicArray<T>::Swap(size_t first_index, size_t second_index)
+{
+	T tmp = p_data_[first_index];
+	p_data_[first_index] = p_data_[second_index];
+	p_data_[second_index] = tmp;
 }
 
 template <class T>

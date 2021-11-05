@@ -54,10 +54,25 @@
     <ClInclude Include="linked_list_sequence.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="interface.h">
+    <ClInclude Include="u_interface_classes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="i_collection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="test_sort.h">
+      <Filter>Header Files\tests</Filter>
+    </ClInclude>
+    <ClInclude Include="sort_algorithms.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="u_interface_sort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="comparators.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="u_interface_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -77,7 +92,13 @@
     <ClCompile Include="test_math_vector.cpp">
       <Filter>Resource Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="interface.cpp">
+    <ClCompile Include="u_interface_classes.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test_sort.cpp">
+      <Filter>Resource Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="u_interface_sort.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>

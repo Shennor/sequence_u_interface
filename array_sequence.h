@@ -17,6 +17,7 @@ public:
 	ArraySequence(const ArraySequence<T>& sequence);
 	ArraySequence(const Sequence<T>* sequence);
 	ArraySequence(const DynamicArray<T>& array);
+	ArraySequence(const DynamicArray<T>* array);
 
 	// Decomposition
 
@@ -33,9 +34,16 @@ public:
 	void Append(T item) override;
 	void Prepend(T item) override;
 	void InsertAt(T item, size_t index) override;
+	void DeleteAt(size_t index) override;
+	void Swap(size_t first_index, size_t second_index) override;
 	Sequence<T>* Concat(Sequence<T>* sequence) override;
-	Sequence<T>* Concat(ArraySequence<T>* sequence);
-	Sequence<T>* Concat(LinkedListSequence<T>* sequence);
+	Sequence<T>* Concat(ArraySequence<T>* sequence) override;
+	Sequence<T>* Concat(LinkedListSequence<T>* sequence) override;
+
+	Sequence<T>* Copy(size_t begin, size_t end) override;
+	// Sorting
+
+	//void merge_sort(int (*cmp)(T, T), size_t begin, size_t end) override;
 };
 
 template <class T>
@@ -76,6 +84,12 @@ template <class T>
 ArraySequence<T>::ArraySequence(const DynamicArray<T>& array)
 {
 	sequence_ = array;
+}
+
+template <class T>
+ArraySequence<T>::ArraySequence(const DynamicArray<T>* array)
+{
+	sequence_ = new DynamicArray<T>(array);
 }
 
 template <class T>
@@ -193,6 +207,18 @@ void ArraySequence<T>::InsertAt(T item, size_t index)
 }
 
 template <class T>
+void ArraySequence<T>::DeleteAt(size_t index)
+{
+	sequence_.DeleteAt(index);
+}
+
+template <class T>
+void ArraySequence<T>::Swap(size_t first_index, size_t second_index)
+{
+	sequence_.Swap(first_index, second_index);
+}
+
+template <class T>
 Sequence<T>* ArraySequence<T>::Concat(Sequence<T>* sequence)
 {
 	return sequence->Concat(this);
@@ -217,3 +243,71 @@ Sequence<T>* ArraySequence<T>::Concat(LinkedListSequence<T>* sequence)
 	}
 	return sequence;
 }
+
+template <class T>
+Sequence<T>* ArraySequence<T>::Copy(size_t begin, size_t end)
+{
+	if(begin == end)
+	{
+		return new ArraySequence<T>{};
+	}
+	return new ArraySequence(this->sequence_.Slice(begin, end));
+}
+
+/*
+
+template <class T>
+void merge(ArraySequence<T>* seq, int(*cmp)(T, T), size_t begin,
+	size_t middle, size_t end)
+{
+	ArraySequence<T> seq_copy = new ArraySequence<T>(*seq);
+	size_t insert_i = begin;
+	size_t first_i = begin;
+	size_t second_i = middle + 1;
+	while (first_i <= middle && second_i <= end)
+	{
+		T f = seq_copy.Get(first_i);
+		T s = seq_copy.Get(second_i);
+		if (cmp(f, s) >= 0)
+		{
+			seq->Set(insert_i++, f);
+			first_i++;
+		}
+		else
+		{
+			seq->Set(insert_i++, s);
+			second_i++;
+		}
+	}
+	while (first_i <= middle)
+	{
+		seq->Set(insert_i++, seq_copy.Get(first_i++));
+	}
+	while (second_i <= end)
+	{
+		seq->Set(insert_i++, seq_copy.Get(second_i++));
+	}
+}
+
+template <class T>
+void ArraySequence<T>::merge_sort(int(*cmp)(T, T), size_t begin,
+	size_t end)
+{
+	if (end - begin < 1) return;
+	if (end >= this->GetCount())
+	{
+		throw std::out_of_range(
+			"ArraySequence merge_sort: end out of range");
+	}
+	if (begin > end)
+	{
+		throw std::out_of_range(
+			"ArraySequence merge_sort: begin is bigger then end");
+	}
+	int middle = (begin + end) / 2;
+	merge_sort(cmp, begin, middle);
+	merge_sort(cmp, middle + 1, end);
+	merge(this, cmp, begin, middle, end);
+}
+
+*/

@@ -26,9 +26,23 @@ void test_constructors()
 	assert(abs(s2->Get(1) - 4.5) < 0.00001);
 	assert(abs(s2->GetLast() - 1.3) < 0.00001);
 
+	int b[5] = { 1,2,3,4,5 };
+	Sequence<int>* s4 = new LinkedListSequence<int>(b, 5);
+	Sequence<int>* s5 = s4->Copy(0, 3);
+	assert(s5->GetCount() == 4);
+	assert(s5->Get(0) == 1);
+	assert(s5->Get(1) == 2);
+	assert(s5->Get(2) == 3);
+	assert(s5->Get(3) == 4);
+	Sequence<int>* s6 = s4->Copy(0, 0);
+	assert(s6->GetCount() == 0);
+	
 	delete s1;
 	delete s2;
 	delete s3;
+	delete s4;
+	delete s5;
+	delete s6;
 }
 
 void test_get_set_subsequence()
@@ -39,7 +53,7 @@ void test_get_set_subsequence()
 	{
 		s1->GetFirst();
 	}
-	catch (std::exception e)
+	catch (std::exception& e)
 	{
 		err = true;
 		assert(strcmp(e.what(),
@@ -52,7 +66,7 @@ void test_get_set_subsequence()
 	{
 		s1->GetLast();
 	}
-	catch (std::exception e)
+	catch (std::exception& e)
 	{
 		err = true;
 		assert(strcmp(e.what(),
@@ -266,9 +280,23 @@ void test_constructors()
 	assert(abs(s2->Get(1) - 4.5) < 0.00001);
 	assert(abs(s2->GetLast() - 1.3) < 0.00001);
 
+	int b[5] = { 1,2,3,4,5 };
+	Sequence<int>* s4 = new ArraySequence<int>(b, 5);
+	Sequence<int>* s5 = s4->Copy(0, 3);
+	assert(s5->GetCount() == 4);
+	assert(s5->Get(0) == 1);
+	assert(s5->Get(1) == 2);
+	assert(s5->Get(2) == 3);
+	assert(s5->Get(3) == 4);
+	Sequence<int>* s6 = s4->Copy(0, 0);
+	assert(s6->GetCount() == 0);
+
 	delete s1;
 	delete s2;
 	delete s3;
+	delete s4;
+	delete s5;
+	delete s6;
 }
 	
 void test_get_set_subsequence()

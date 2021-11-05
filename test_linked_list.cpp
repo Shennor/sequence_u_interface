@@ -211,6 +211,42 @@ void test_concat()
 	assert(s1.Get(4) == 'I');
 }
 
+void test_delete_at()
+{
+	LinkedList<int> v{};
+	bool ex = false;
+	try
+	{
+		v.DeleteAt(4);
+	}
+	catch (std::exception e)
+	{
+		ex = true;
+		assert(strcmp(e.what(), "LinkedList DeleteAt: index out of range") == 0);
+	}
+	assert(ex);
+	v.Append(1);
+	v.Append(2);
+	v.Append(3);
+	v.Append(4);
+	v.Append(5);
+	v.DeleteAt(2);
+	assert(v.GetCount() == 4);
+	assert(v.Get(0) == 1);
+	assert(v.Get(1) == 2);
+	assert(v.Get(2) == 4);
+	assert(v.Get(3) == 5);
+	v.DeleteAt(0);
+	assert(v.GetCount() == 3);
+	assert(v.Get(0) == 2);
+	assert(v.Get(1) == 4);
+	assert(v.Get(2) == 5);
+	v.DeleteAt(2);
+	assert(v.GetCount() == 2);
+	assert(v.Get(0) == 2);
+	assert(v.Get(1) == 4);
+}
+	
 void test_enumerator()
 {
 	const char* a = "Mother";

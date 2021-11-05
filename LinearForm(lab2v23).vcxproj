@@ -144,23 +144,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="comparators.h" />
     <ClInclude Include="dynamic_array.h" />
     <ClInclude Include="array_sequence.h" />
-    <ClInclude Include="interface.h" />
+    <ClInclude Include="u_interface_classes.h" />
     <ClInclude Include="i_collection.h" />
     <ClInclude Include="i_enumerator.h" />
     <ClInclude Include="linked_list.h" />
     <ClInclude Include="linked_list_sequence.h" />
     <ClInclude Include="math_vector.h" />
     <ClInclude Include="sequence.h" />
+    <ClInclude Include="sort_algorithms.h" />
+    <ClInclude Include="u_interface_sort.h" />
     <ClInclude Include="test_dynamic_array.h" />
     <ClInclude Include="test_linked_list.h" />
     <ClInclude Include="test_math_vector.h" />
     <ClInclude Include="test_sequence.h" />
+    <ClInclude Include="test_sort.h" />
+    <ClInclude Include="u_interface_utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="interface.cpp" />
+    <ClCompile Include="u_interface_classes.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="u_interface_sort.cpp" />
+    <ClCompile Include="test_sort.cpp" />
     <ClCompile Include="test_dynamic_array.cpp" />
     <ClCompile Include="test_linked_list.cpp" />
     <ClCompile Include="test_math_vector.cpp" />
